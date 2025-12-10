@@ -19,4 +19,11 @@ I'd like the device to be simple in its interface. A single screen only to avoid
 
 PROJECT PHOTOS & PCB RENDERS
 
-## Project 
+## Project Parts
+
+| Part Description | Part Number | Package | Quantity |
+| --------------------- | ------------------ | ----------- | ----------- |
+| Microcontroller | ATmega8A | DIP-28 | 1 |
+| 4x 7 Segment Display |  |  | 1 |
+| Voltage Reference | TL431 |  | 1 |
+| Temperature Sensor | MCP9700 |  | 1 |<img width="397" height="108" alt="image" src="https://github.com/user-attachments/assets/8438b111-ad00-46f4-8652-d06428e96558" />

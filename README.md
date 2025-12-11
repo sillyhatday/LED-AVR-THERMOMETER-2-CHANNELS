@@ -24,6 +24,14 @@ PROJECT PHOTOS & PCB RENDERS
 | Part Description | Part Number | Package | Quantity |
 | --------------------- | ------------------ | ----------- | ----------- |
 | Microcontroller | ATmega8A | DIP-28 | 1 |
-| 4x 7 Segment Display |  |  | 1 |
-| Voltage Reference | TL431 |  | 1 |
-| Temperature Sensor | MCP9700 |  | 1 |<img width="397" height="108" alt="image" src="https://github.com/user-attachments/assets/8438b111-ad00-46f4-8652-d06428e96558" />
+| 4x 7 Segment Display | SR420561N | ?? | 1 |
+| Voltage Reference | TL431 | TO-92-3 | 1 |
+| Temperature Sensor | MCP9700 | TO-92 | 1 |
+| Resistors | 470R | L6.3xD2.5xP10.16 | 8 |
+| Resistors | 1K | L6.3xD2.5xP10.16 | 1 |
+| Resistors | 10K | L6.3xD2.5xP10.16 | 7 |
+| Capacitors | 20pF | D3.4xW2.1xP2.5 | 2 |
+| Capacitors | 100nF | D3.0xW2.0xP2.5 | 3 |
+| Capacitors | 1uF | ?? | 2 |
+| Capacitors | 10uF | ?? | 1 |
+| Buttons | PS-7054DVB-6PN | ?? | 2 |

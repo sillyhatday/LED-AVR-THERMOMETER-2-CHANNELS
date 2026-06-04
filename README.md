@@ -78,17 +78,13 @@ It’s actively being used and keeping an eye out for bugs.
 
 ## Photos
 
+### Final Concept
+<img width="800" height="618" alt="Temperature Monitor Enclosure angled front smol" src="https://github.com/user-attachments/assets/1f834fec-2958-40e3-94c4-f130e7e43848" />
+<img width="800" height="618" alt="Temperature Monitor Enclosure angled back smol" src="https://github.com/user-attachments/assets/3b60185c-c05b-4c6b-b623-e7b32655ed60" />
+
 ### Current Build
 
-![Current Build](images/build-v1.jpg)
-
-Notes about the photo.
-
-### Wiring
-
-![Wiring](images/wiring.jpg)
-
-Notes about the setup.
+TO DO
 
 ---
 

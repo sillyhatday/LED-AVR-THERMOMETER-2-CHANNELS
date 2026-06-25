@@ -1,18 +1,17 @@
 # 2 Channel Temperature Monitor
 
-## Indoor & Outdoor Temperature Display
+## 📢 Introduction
 
-In my current obsession with AVRs, I wanted to try use what I learned creating the nixie clock project for something else. 
+This came about as a break from the [nixie clock](https://github.com/sillyhatday/IN-12-NIXIE-CLOCK) project that was taking a long time to progress.
 
-I have been wanting a temperature monitor that displays the inside and outside temperature. So instead of just buying something, I figured it would be more fun to start another project and try to program it myself.
+It is a 2 channel temperature monitor that is intended for inside and outside temperature monitoring.
 
-I have a pile of ATmega8A and Atmega328P, along with 7 segment displays. I'm just missing something to measure the temperature.
-
-I decided to make my own one of these rather than buy a solution. It’s been a great way for me to learn to code. This projects code is a mess though, since doing this, I’ve learned more and have begun a rewrite to a state machine based format.
+>[!NOTE]
+>While this project is functional, the code is a mess. It requires a rewrite.
 
 ---
 
-## Hardware
+## 🔨 Hardware
 
 | Part Description | Part Number | Package | Quantity |
 | --------------------- | ------------------ | ----------- | ----------- |
@@ -29,58 +28,54 @@ I decided to make my own one of these rather than buy a solution. It’s been a 
 | Capacitors | 10uF | ?? | 1 |
 | Buttons | PS-7054DVB-6PN | ?? | 2 |
 
-You’ll probably want an enclosure for it too. The 3D print files I made for myself are also attached.
-You will likely need some kind of screen for the outdoor temperature sensor to keep readings more accurate. The sunlight will heat things up far beyond the ambient air temperature.
-
 ---
 
-## Functional Description
+## 📔 Functional Description
 
-For the sensor, I chose the MCP9700 as it looks to be a nice all in one package. Using something like a thermocouple or PT100 type sensor requires signal conditioning. The MCP9700 has all this built into it. It does all the sensing and signal conditioning.
+* The sensors used for temperature sensing are two MCP9700 packages. These are easy to use, not requiring external circuit conditioning. These can do negative temperatures without needing negative voltages, using a 500mV offset for 0c.
 
-The 0c voltage from the MCP9700 is 500mV. This means that negative temperatures can be measured easily. Other options out there have 0c at 0v, so negative voltages have to be dealt with. This 500mV offset makes things so much simpler and also suitable for use outdoors.
+* For an air temperature monitor, the range does not need to be extreme. For the temperatures expected in Europe, -20c to 50c would be more than enough. For the most part things are between -3c and 35c. The range available for this project is -50c to 154.6c. A span of 204.6c.
 
-A range of temperatures that would be suitable, as a minimum, would be between -20c to 50c. This would easily encompass the temperature extremes of where I live. I have only seen -18c many years ago and 42c just a few years ago. Mostly the temperature stays between -3c and 30c. The range available for my setup is -50c to 154.6c. A temperature range of 204.6c.
+* An accurate voltage refernce is needed to compare the sensor voltage with. For this the TL431 is used, it is another easy to use soloution. It has an output of 2.495v. For easy maths (and a large shortcut), having a reference voltage a multiple of the maximum ADC bits makes things simple. The 10-bit ADC is 0 - 1023. Setting the refrence voltage to 2.048v, through the use of a voltage divider network, is close enough to double.
 
-The accurate voltage reference used for analogue measurements is the TL431. The output is 2.495v. The output of this is fed through a voltage divider to bring the voltage inline with the 10-bit ADC counts. The ADC can count 0 – 1023. Setting the reference voltage to 2048mV is an almost exact multiple. It’s considered to be double that of the ADC for the achievable accuracy of this setup. 2mV = 1 ADC. This setup doubles as a calibration for sensor and MCU tolerances.
+* You may see that the finest change of temperature is 0.2c. That is 2048mV / 1023ADC = 2mV. The MCP9700 sensor output changes 10mV / 1c. As this setup requires 2mV per 1 ADC, 10mV / 2mV = 5. Finally, 5 ADC changes per 1c means, 1c / 5 = 0.2c. Should there not be a nice relation between voltage and ADC, the maths become more involved. Along the lines of: ADC reading > convert ADC to voltage > convert voltage to temperature. This can involve the use of floating point numbers. When getting to oversamlping, this complicates things further.
 
-At 0c the MCP9700 outputs 500mV. That is an ADC value of 250. You may see that the maximum resolution here is 0.2c. The MCP9700 output is described as 10mV / 1c. An increase of 0.1c is 1mV, but 2mV are required for a change in the ADC count. The 0.1c resolution that the project has is done through oversampling. This simplified maths helps keep oversampling super simple too.
+* The device has a single screen displaying temperature. It has two buttons. One for selecting which sensor is being displayed and the other to cycle through peak readings. These being: indoor high, indoor low, outdoor high & outdoor low. Peak readings are always being updated regardless of what is actively displayed on screen. These values can be reset by shorting the jumper connections on the back of the board. This can also be connected to a button if desired.
 
-The device has a single screen displaying temperature. It has two buttons. One for selecting which sensor is being read and the other to cycle through peak readings. These being: indoor high, indoor low, outdoor high & outdoor low. These values can be reset by shorting the jumper connections on the back of the board. This can also be connected to a button if desired.
+* I ended up using a mini 3 pin XLR connector for the outdoor temperature sensor, with the idea of it being removable should I wish to not use it, or I need to disconnect my outdoor sensor that isn't easily movable. I had the indoor sensor inside the case, the thought being it would help filter out any air current that could cause wild temperature reading changes. This did not work as the heat from the MCU was enough to ruin the accuracy. For accurate readings, the sensor should also be on a wire and positioned in the rood so that it is away from strong air currents. There is software averaging to reduce wild display changes.
 
-I ended up using a mini 3 pin XLR connector for the outdoor temperature sensor, with the idea of it being removable should I wish to just have it as an indoor temperature monitor. I had the indoor sensor inside the case thinking that it would help filter out any drafts that could cause wild temperature reading changes. This did not work as the heat from the MCU was enough to make everything read higher than it should. I then moved it to the back of the case, this helped a little but drafts and room position were not optimal. In the end I soldered a wire to the PCB to run the sensor to a better room position. This made the biggest change, making things more stable. I should have used a mini XLR for this sensor too.
+>[!NOTE]
+>The project code is honestly a mess. It's currently half rewritten in a better way using state machines. For now, this works well enough.
 
-There is no need for the NPN transistors on the screen cathodes, they can just as well be controlled by the MCU directly, but I like having all logic in code the same. That being on is one and off is zero.
+>[!TIP]
+>Direct sunlight will heat up the outdoor sensor. A screen is required to help reduce this effect.
 
-The project code is honestly a mess. I learned a lot doing this and have since learned more. It's currently half rewritten in a better way using state machines. For now, this works well enough.
+## ⚫ Progress
 
-## Progress
-
-It’s actively being used and keeping an eye out for bugs.
-
-### Done
+### 🟢 Done
 - Build a functional temperature monitor that can read two channels
 - Implement peak temperature readings and store them into EEPROM
 - Add EEPROM check for knowing if to initialise memory space.
 - Display text on screen when interacting with the button functions.
 
-### Working On
+### 🟡 Working On
 - Rewriting the whole code to use a traditional state machine based structure.
 - Removing known bugs.
 
-### Next
+### ⚪ Next
 - Nothing. A whole new project expanding on this one.
 
-### Known Bugs
+### 🔴 Known Bugs
 - Temperatures over 100c corrupt adjacent memory space. Needs memory allocations moving.
 - Flickering display when using the button functions. Race conditions, the rewrite will fix.
+  
 ---
 
 ## Photos
 
 ### Final Concept
-<img width="800" height="618" alt="Temperature Monitor Enclosure angled front smol" src="https://github.com/user-attachments/assets/1f834fec-2958-40e3-94c4-f130e7e43848" />
-<img width="800" height="618" alt="Temperature Monitor Enclosure angled back smol" src="https://github.com/user-attachments/assets/3b60185c-c05b-4c6b-b623-e7b32655ed60" />
+<img width="500" height="386" alt="Temperature Monitor Enclosure angled front smol" src="https://github.com/user-attachments/assets/1f834fec-2958-40e3-94c4-f130e7e43848" />
+<img width="500" height="386" alt="Temperature Monitor Enclosure angled back smol" src="https://github.com/user-attachments/assets/3b60185c-c05b-4c6b-b623-e7b32655ed60" />
 
 ### Current Build
 
@@ -88,15 +83,22 @@ TO DO
 
 ---
 
-## Code
+## Tools
 
 - Tools: Arduino IDE 1.8.19 – MiniCore for ATMEGA8
 
-- I’ll refrain from doing any code breakdown here as it will need a rewrite when the new version is complete.
 ---
 
-## Resources
-- https://danyk.cz/avr_tep2_en.html
-- https://danyk.cz/avr_tep_en.html
+## Links
+
+🛍️ Inside Gadgets Shop: https://shop.insidegadgets.com <br>
+📎 Inside Gadgets GitHub: https://github.com/insidegadgets <br>
+📷 Inside Gadgets Insta: https://www.instagram.com/inside.gadgets <br>
+🖇️ Bytendo Mods GitHub: https://github.com/bytendomods <br>
+🐭 Bucket Mouse: https://github.com/Bucket-Mouse <br>
+🛒 Natalie Shop: https://nataliethenerd.com/ <br>
+🤓 Natalie GitHub: https://github.com/natalie-lang/natalie <br>
+💡 Danyk Project 1: https://danyk.cz/avr_tep2_en.html <br>
+🌡️ Danyk Project 2: https://danyk.cz/avr_tep_en.html <br>
 
 ---

@@ -73,13 +73,19 @@ It is a 2 channel temperature monitor that is intended for inside and outside te
 
 ## Photos
 
+### PCB Render
+
+<img width="800" height="742" alt="LED 7 Segment Temperature Monitor Front" src="https://github.com/user-attachments/assets/0f3a4b6a-7134-4504-a6cb-90273e0b1cde" />
+<img width="800" height="742" alt="LED 7 Segment Temperature Monitor Reart" src="https://github.com/user-attachments/assets/57a1a562-4cb1-45c1-962d-37d58cfe8d5e" />
+
+
 ### Final Concept
-<img width="500" height="386" alt="Temperature Monitor Enclosure angled front smol" src="https://github.com/user-attachments/assets/1f834fec-2958-40e3-94c4-f130e7e43848" />
-<img width="500" height="386" alt="Temperature Monitor Enclosure angled back smol" src="https://github.com/user-attachments/assets/3b60185c-c05b-4c6b-b623-e7b32655ed60" />
+<img width="800" height="620" alt="Temperature Monitor Enclosure angled front smol" src="https://github.com/user-attachments/assets/1f834fec-2958-40e3-94c4-f130e7e43848" />
+<img width="800" height="620" alt="Temperature Monitor Enclosure angled back smol" src="https://github.com/user-attachments/assets/3b60185c-c05b-4c6b-b623-e7b32655ed60" />
 
 ### Current Build
 
-TO DO
+<img width="800" height="450" alt="20260628_133721" src="https://github.com/user-attachments/assets/7c30ffdf-bae2-40c8-9c3a-2306f77b51c4" />
 
 ---
 
